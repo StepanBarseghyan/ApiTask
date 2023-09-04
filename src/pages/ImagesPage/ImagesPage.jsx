@@ -1,22 +1,29 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import s from './ImagesPage.module.css'
 import { useSelector, useDispatch } from 'react-redux'
-import {selectCategory,} from '../../store/categoriesSlice/categorySlice'
+import {
+  changePage,
+  selectCategory,
+} from '../../store/categoriesSlice/categorySlice'
 import { useParams } from 'react-router'
-import { getImages } from '../../store/categoriesSlice/categoriesApi'
+import {
+  getImages,
+  getMoreImages,
+} from '../../store/categoriesSlice/categoriesApi'
 
 const ImagesPage = () => {
-  const { loading, images } = useSelector(selectCategory)
-  const [page,setPage] = useState(1)
+  const { loading, images, page } = useSelector(selectCategory)
   const { id } = useParams()
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getImages({id:id,page:page}))
-  }, [id,page])
-
+    dispatch(getImages({ id: id, page: page }))
+    dispatch(changePage(1))
+  }, [id])
   const change = () => {
-    dispatch(setPage(prev=> prev + 1 ))
+    dispatch(changePage(page + 1))
+    dispatch(getMoreImages({ id: id, page: page }))
   }
+
   return (
     <section className={s.imagesSection}>
       <h1 className={s.title}>Images</h1>

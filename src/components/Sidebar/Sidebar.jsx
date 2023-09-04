@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import { changePage, selectCategory } from '../../store/categoriesSlice/categorySlice'
 import s from './Sidebar.module.css'
 
 const Sidebar = ({ categories }) => {
+  const dispatch = useDispatch()
 
   return (
     <aside className={s.sidebar}>
@@ -10,7 +13,7 @@ const Sidebar = ({ categories }) => {
         {categories?.map(category => (
           <li
             key={category.id}>
-            <Link to={`/images/${category.id}`} >{category?.name}</Link>
+            <Link to={`/images/${category.id}`}>{category?.name}</Link>
           </li>
         ))}
       </ul>

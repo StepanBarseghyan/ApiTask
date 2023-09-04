@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAllImages, getCategories, getImages } from './categoriesApi'
+import { getAllImages, getCategories, getImages, getMoreImages } from './categoriesApi'
 
 const categorySlice = createSlice({
   name: 'category',
@@ -7,8 +7,13 @@ const categorySlice = createSlice({
     categories: [],
     images: [],
     loading: false,
+    page:1
   },
-  reducers: {},
+  reducers: {
+    changePage(state,{payload}){
+      state.page = payload
+    }
+  },
   extraReducers: builder => {
     builder.addCase(getCategories.fulfilled, (state, { payload }) => {
       state.categories = payload
@@ -25,10 +30,13 @@ const categorySlice = createSlice({
     })
     builder.addCase(getImages.fulfilled, (state, { payload }) => {
       state.loading = false
+      state.images = payload
+    })
+    builder.addCase(getMoreImages.fulfilled, (state, { payload }) => {
       state.images.push(...payload)
     })
   },
 })
 export const selectCategory = state => state.category
-export const {} = categorySlice.actions
+export const {changePage} = categorySlice.actions
 export default categorySlice.reducer

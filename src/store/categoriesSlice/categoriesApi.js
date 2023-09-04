@@ -28,3 +28,13 @@ export const getImages = createAsyncThunk(
   },
 )
 
+export const getMoreImages = createAsyncThunk(
+  'category/getMoreImages',
+  async ({id,page}) => {
+    const result =
+      await getRequest(`https://api.thecatapi.com/v1/images/search?limit=10&page=${page}&category_ids=${id} 
+    `)
+    return result
+  },
+)
+
